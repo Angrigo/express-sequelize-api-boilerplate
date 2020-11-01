@@ -8,4 +8,4 @@ const router = express.Router();
 //= ===============================
 router.get('/allUsers', userController.allUsers);
 
-module.exports = router;
+export default router;

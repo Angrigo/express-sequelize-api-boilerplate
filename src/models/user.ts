@@ -1,7 +1,11 @@
+import { Sequelize, DataTypes as _DataTypes, Model } from "sequelize/types";
 
+type MyModel = typeof Model & {
+  associate?: Function; 
+}
 
-module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define(
+export default (sequelize: Sequelize, DataTypes: typeof _DataTypes) => {
+  const User: MyModel = sequelize.define(
     'User',
     {
       firstName: {
@@ -45,8 +49,11 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
   );
-  User.associate = function (models) {
+
+  User.associate = function (_models: any) {
     // associations can be defined here
   };
+
+  
   return User;
 };

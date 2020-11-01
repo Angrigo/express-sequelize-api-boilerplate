@@ -1,26 +1,19 @@
-
-
-const fs = require('fs');
-const path = require('path');
-const Sequelize = require('sequelize');
+import fs from 'fs';
+import path from 'path';
+import {Sequelize} from 'sequelize';
 
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 // eslint-disable-next-line import/no-dynamic-require
 const config = require(`${__dirname}/../config/config.js`)[env];
-const db = {};
+const db: any = {};
 
-let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  sequelize = new Sequelize(
+let sequelize: Sequelize = new Sequelize(
     config.database,
     config.username,
     config.password,
     config,
   );
-}
 
 fs.readdirSync(__dirname)
   .filter(file => (
@@ -48,4 +41,4 @@ db.Sequelize = Sequelize;
 // db.User.hasMany(db.Address);
 // db.Address.belongsTo(db.User);
 
-module.exports = db;
+export default db;

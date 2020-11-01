@@ -1,5 +1,5 @@
 import express from 'express';
-import validate from 'express-validation';
+import { validate } from 'express-validation';
 
 import * as userController from '../controllers/user/user.controller';
 import * as userValidator from '../controllers/user/user.validator';
@@ -7,18 +7,13 @@ import * as userValidator from '../controllers/user/user.validator';
 const router = express.Router();
 
 //= ===============================
-// Public routes
+// API routes
 //= ===============================
-
+router.get('/me', userController.profile);
 router.post(
-  '/login',
-  validate(userValidator.login),
-  userController.login,
-);
-router.post(
-  '/register',
-  validate(userValidator.register),
-  userController.register,
+  '/changePassword',
+  validate(userValidator.changePassword),
+  userController.changePassword,
 );
 
-module.exports = router;
+export default router;

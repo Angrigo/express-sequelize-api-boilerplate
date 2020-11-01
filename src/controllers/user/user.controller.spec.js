@@ -3,7 +3,9 @@ import { allUsers } from './user.controller';
 
 import { successResponse } from '../../helpers';
 
-import { User } from '../../models';
+import models from '../../models';
+const User = models.User;
+
 // mock success and error function mock
 jest.mock('./../../helpers');
 
