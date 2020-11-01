@@ -1,12 +1,14 @@
-import nodemailer from "nodemailer"
+import nodemailer, { Transporter } from "nodemailer"
 import ejs from "ejs";
+import Mail from "nodemailer/lib/mailer";
 
-export var mailer = null;
+export var mailer: Mailer;
 
 export default class Mailer {
-    constructor(config) {
-        if (config) this.transporter = nodemailer.createTransport(config);
-        else
+    transporter: Mail | undefined;
+    constructor(config:any) {
+        this.transporter = undefined;
+        if (!config){
             nodemailer.createTestAccount((err, account) => {
                 if (err) {
                     console.error('Failed to create a testing account');
@@ -35,6 +37,9 @@ export default class Mailer {
                     }
                 );
             });
+        }else {
+            this.transporter = nodemailer.createTransport(config);
+        }
         Object.freeze(this.transporter);
         console.info("Nodemailer initialized...")
     }
@@ -46,12 +51,11 @@ export default class Mailer {
         return mailer;
     }
 
-    static initialize(config) {
+    static initialize(config:any) {
         mailer = new Mailer(config);
     }
 
-    async sendEmail(emailAddress, emailSubject, emailTemplate, emailData) {
-
+    async sendEmail(emailAddress:string, emailSubject:string, emailTemplate:string, emailData:Object) {
         const data = await ejs.renderFile(__dirname + `/templates/${emailTemplate}.ejs`, emailData);
         try {
             let mailOptions = {
@@ -61,7 +65,7 @@ export default class Mailer {
                 html: data,
             };
 
-            return this.transporter.sendMail(mailOptions, (error, info) => {
+            return this.transporter?.sendMail(mailOptions, (error, info) => {
                 if (error) console.log(error + "\n");
                 else {
                     console.log("An Email has been sent to " + emailAddress);

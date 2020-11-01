@@ -1,10 +1,9 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import axios from 'axios';
 import models from '../../models';
 import { successResponse, errorResponse, uniqueId } from '../../helpers';
 import CustomError from '../../helpers/CustomError';
-import Mailer from '../../helpers/mailer/index.js';
+import Mailer from '../../helpers/mailer/';
 import {Request, Response} from "express";
 
 const User = models.User;
