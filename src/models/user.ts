@@ -1,12 +1,9 @@
-import { Sequelize, DataTypes as _DataTypes, Model } from "sequelize/types";
+import { DataTypes, Sequelize } from "sequelize";
+import { UserStatic } from "../helpers/database/models-types";
 
-type MyModel = typeof Model & {
-  associate?: Function; 
-}
-
-export default (sequelize: Sequelize, DataTypes: typeof _DataTypes) => {
-  const User: MyModel = sequelize.define(
-    'User',
+export default function (sequelize: Sequelize): UserStatic {
+  return <UserStatic>sequelize.define(
+    "Users",
     {
       firstName: {
         type: DataTypes.STRING,
@@ -22,7 +19,7 @@ export default (sequelize: Sequelize, DataTypes: typeof _DataTypes) => {
       password: {
         type: DataTypes.STRING,
       },
-      profilePic: {
+      profilePicture: {
         type: DataTypes.STRING,
       },
       isAdmin: {
@@ -40,20 +37,13 @@ export default (sequelize: Sequelize, DataTypes: typeof _DataTypes) => {
     },
     {
       defaultScope: {
-        attributes: { exclude: ['password', 'verifyToken', 'isAdmin'] },
+        attributes: { exclude: ["password", "verifyToken", "isAdmin"] },
       },
       scopes: {
         withSecretColumns: {
-          attributes: { include: ['password', 'verifyToken', 'isAdmin'] },
+          attributes: { include: ["password", "verifyToken", "isAdmin"] },
         },
       },
-    },
+    }
   );
-
-  User.associate = function (_models: any) {
-    // associations can be defined here
-  };
-
-  
-  return User;
-};
+}

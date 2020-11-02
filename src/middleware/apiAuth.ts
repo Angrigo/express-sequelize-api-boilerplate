@@ -1,7 +1,7 @@
 import { errorResponse } from '../helpers';
 import models from '../models';
 import {NextFunction, Request, Response} from "express";
-const User = models.User;
+//const User = models.User;
 
 const jwt = require('jsonwebtoken');
 
@@ -13,9 +13,9 @@ const apiAuth = async (req:Request, res:Response, next: NextFunction) => {
   try {
     const decoded = jwt.verify(token, process.env.SECRET);
     req.body.user = decoded.user;
-    const user = await User.scope('withSecretColumns').findOne({
+    const user = {id:1, get: () => {return {userId: 1}}};/*await User.scope('withSecretColumns').findOne({
       where: { email: req.body.user.email },
-    });
+    });*/
     if (!user) {
       return errorResponse(req, res, 'User is not found in system', "USER_NOT_FOUND", 401);
     }

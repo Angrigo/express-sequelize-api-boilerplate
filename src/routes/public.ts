@@ -30,6 +30,10 @@ router.post(
   validate(userValidator.newPassword),
   userController.newPassword,
 );
-
+router.post(
+  '/verifyAccount',
+  validate(userValidator.verifyAccount),
+  userController.verifyAccount,
+);
 
 export default router;
